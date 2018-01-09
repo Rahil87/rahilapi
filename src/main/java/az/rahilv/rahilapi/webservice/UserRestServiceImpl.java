@@ -8,11 +8,10 @@ import az.rahilv.rahilapi.util.ExceptionConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserRestServiceImpl implements UserRestService {
@@ -53,4 +52,49 @@ public class UserRestServiceImpl implements UserRestService {
 
         return response;
     }
-}
+
+    @Override
+    @GET
+    @Path("/getAllUsersList")
+    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
+    public List<RespUser> getAllUsersList() {
+        List<RespUser>respUserList= new ArrayList<>() ;
+            RespUser respUser = new RespUser();
+            try {
+                List<User>userList=userService.getAllUsersList();
+                for (User user:userList) {
+                    respUser.setName(user.getName());
+                    respUser.setSurname(user.getSurname());
+                    respUser.setUsername(user.getUsername());
+                    respUserList.add(respUser);
+                }
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+            return respUserList;
+            }
+
+    @Override
+    @POST
+   @Produces({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_JSON,MediaType.APPLICATION_XML})
+    public void addUsers(RespUser respUser) {
+        RespUser respUser1= new RespUser();
+        try {
+            User user= new User();
+           user.setName(respUser1.getName());
+            user.setSurname(respUser1.getSurname());
+            user.setUsername(respUser1.getUsername());
+            user.setPassword(respUser1.getPassword());
+            userService.addUsers(user);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        }
+
+
+    }
+
+
+
+

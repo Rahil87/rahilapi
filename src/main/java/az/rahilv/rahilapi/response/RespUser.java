@@ -11,6 +11,16 @@ public class RespUser {
     private String username;
     private String name;
     private String surname;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     private RespStatus respStatus;
 
     public String getUsername() {
